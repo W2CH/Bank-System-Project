@@ -225,7 +225,9 @@ function validateAddCust(){
 
 };
 
+// Add new Customer function
 async function addNewCustToDB(){
+  // Retrieve Data
   const newFName = document.getElementById("FName").value;
   const newLName = document.getElementById("LName").value;
   const newSex = document.getElementById("Sex").value;
@@ -233,6 +235,7 @@ async function addNewCustToDB(){
   const newAddy = document.getElementById("Addy").value;
   const newPhoneNum = document.getElementById("PhoneNum").value;
 
+  // JSON Format
   const body = {
       fname : newFName,
       lname : newLName,
@@ -242,23 +245,27 @@ async function addNewCustToDB(){
       phoneNum : newPhoneNum
   };
 
+  // Send data to DB
   try {
       const response = await fetch('http://localhost:3000',{
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(body),
       });
-      refresh();
+      refresh(); // call method to update table in Main View
   } catch (err) {
       console.log(err.message);
   }
 }
 
+// Refresh table in Main View
 async function refresh(){
+  // vars
   let customerData = [];
   const customerTable = document.getElementById('customer-table');
   let newHTML = '';
 
+  // retrieve data from DB
   try {
       console.log('try to get cust from DB');
       const response = await fetch('http://localhost:3000', {
@@ -266,11 +273,12 @@ async function refresh(){
         method: 'GET',
         headers: { 'Content-Type': 'application/json' },
       });
+      // assign data to variable customerData
       const jsonData = await response.json();
       customerData = jsonData;
-      
-      customerData.map((customerElement) => {
-          newHTML += `<tr key=${customerElement.cust_ID}>
+
+      customerData.map((customerElement) => { // map each JSON elements of customerData to table dynamically. (cust_id) is used as sorting order. 
+          newHTML += `<tr key=${customerElement.cust_ID}> 
           <th>${customerElement.cust_ID}</th>
           <th>${customerElement.fname}</th>
           <th>${customerElement.mname}</th>
@@ -279,6 +287,7 @@ async function refresh(){
           <th><button class="viewDetail" type="button">View Details</button></th>
           </tr>`;
       });
+      // refresh table with new table
       customerTable.innerHTML = newHTML; 
   } catch (err) {
       console.log(err.message);
