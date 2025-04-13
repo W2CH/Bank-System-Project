@@ -17,7 +17,7 @@ app.post('/bank/addCustomer', async (req,res) =>{
   // Retrieve json values
    const {Fname,Lname,Sex,DOB,Address,PHN} = req.body;
   try{
-     const newCustomer = await bankRepository.insertCustomer(Fname, Lname,Sex,DOB,Address,PHN);
+     var newCustomer = await bankRepository.insertCustomer(Fname, Lname,Sex,DOB,Address,PHN);
   }
   catch (err) {
     console.log(err);
