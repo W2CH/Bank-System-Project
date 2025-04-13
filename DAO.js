@@ -7,9 +7,9 @@ class AppDAO {
     this.connection = mysql.createConnection({
       host: '127.0.0.1', // Your database host
       user: 'root', // Your MySQL username
-      password: '', // Your MySQL password
-      port: '3306', // Your MySQL port, normally "3306"
-      database: 'test', // DO NOT EDIT (You need to create a "test" database from your "MySQL Workbench")
+      password: 'password', // Your MySQL password
+      port: '3307', // Your MySQL port, normally "3306"
+      database: 'banksystem', // DO NOT EDIT (You need to create a "test" database from your "MySQL Workbench")
     });
 
     // Connect to the database
@@ -22,9 +22,12 @@ class AppDAO {
     });
   }
 
+  // Ask gbt what would happen if this function did not return a promise
   run(sql, params = []) {
+    // Extra credit: look into nested call backs (shows me why promises exist)
     return new Promise((resolve, reject) => {
       this.connection.query(sql, params, (err, results, fields) => {
+        // resolve and reject are just fancy setter methods
         if (err) {
           console.error('Error executing query:', err.message);
           reject(err);
