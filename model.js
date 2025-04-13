@@ -21,5 +21,14 @@ class Todo {
   }
 
 }
-
-module.exports = Todo;
+class Customer {
+  constructor(Fname,Lname,Sex,DOB,Address,PHN){
+    this.Fname = Fname;
+    this.Lname = Lname;
+    this.Sex = Sex;
+    this.DOB = DOB;
+    this.Address = Address;
+    this.PHN = PHN;
+  }
+}
+module.exports = Customer;
