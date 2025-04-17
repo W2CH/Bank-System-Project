@@ -100,6 +100,89 @@
       </div>
     </div>
     <!-- end of model -->
+
+    <div id='example'>
+        <table>
+          
+        </table>
+    </div>
+    
+<div id="main-view">
+  <form id="addCustomer">
+      <input type="button" value="Add Customer">
+  </form>
+
+  <table id="customer-table">
+      <thead>
+      <tr>
+          <th>Customer ID</th>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>More Info</th>
+      </tr>
+      </thead>
+      <tbody>
+
+      </tbody>
+  </table>
+</div>
+
+<div id="add-customer-view">
+  <button type="button" id="goBack">Go Back</button>
+
+      <br>
+
+      <h1 id="addNewCust">
+          Enter New Customer Info
+      </h1>
+      <!--
+      <label for="ID">ID:</label>
+      <input type="text" id="ID" required>
+    
+      <label for="SSN">SSN:</label>
+      <input type="text" id="SSN" required>
+      <br><br><br>
+      -->
+
+      <label for="FName">First Name:</label>
+      <input type="text" id="FName" required>
+
+      <label for="MName">Middle Name:</label>
+      <input type="text" id="MName">
+
+      <label for="LName">Last Name:</label>
+      <input type="text" id="LName" required>
+      
+      <br><br><br>
+
+      <label for="Sex">Sex:</label>
+      <select id="Sex" required>
+          <option disabled selected value>--Select a Sex--</option>
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
+          <option value="Other">Other</option>
+      </select> 
+
+      <label for="DOB">Date of Birth:</label>
+      <input type="date" id="DOB" required>
+      
+      <br><br><br>
+
+      <label for="Addy">Address:</label>
+      <input type="text" id="Addy" required>
+      
+      <br><br><br>
+
+      <label for="PhoneNum">Phone Number</label>
+      <input type="tel" id="PhoneNum" required>
+
+      <br><br><br>
+
+      <button type="button" id="SubmitNewCust">Submit</button>
+
+      <div id="notice"></div>
+</div>
+
   </body>
 
   <script src="main.js"></script>
