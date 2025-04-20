@@ -1,3 +1,8 @@
+/*
+  when adding account -> send id of customer
+*/
+
+
 // set global variable todos
 let todos = [];
 
@@ -145,18 +150,21 @@ document.addEventListener("DOMContentLoaded",function(){
       event.preventDefault();
       document.getElementById("main-view").hidden = true;
       document.getElementById("add-customer-view").hidden = false;
-  })
+  });
   goBackButton.addEventListener("click",function(event){
       event.preventDefault();
       document.getElementById("add-customer-view").hidden = true;
       document.getElementById("main-view").hidden = false;
-  })
+  });
   submitCustomerButton.addEventListener("click",function(event){
       event.preventDefault();
       validateAddCust();
   });
 })
 
+function submitCustGoBackButton(){
+
+}
 
 function validateAddCust(){
   // const id = document.getElementById("ID").value;
@@ -181,6 +189,7 @@ function validateAddCust(){
   */
 
   if (fName === '' || lName === '') {
+      console.log('test');
       valid = false;
       errMsg += "First and Last Name are required.<br>";
   }
@@ -244,19 +253,19 @@ async function addNewCustToDB(){
       phoneNum : newPhoneNum
   };
 
-  // connect to server
+  // connect to server 
   try {
-      const response = await fetch('http://localhost:3000',{
+      const response = await fetch('http://localhost:3000/bank/addCustomer',{
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(body),
       });
-      refresh(); // call method to update table in Main View
+      //refresh(); // call method to update table in Main View
   } catch (err) {
       console.log(err.message);
   }
 }
-
+/*
 async function refresh(){
   let customerData = [];
   const customerTable = document.getElementById('customer-table');
@@ -264,7 +273,7 @@ async function refresh(){
 
   try {
       console.log('try to get cust from DB');
-      const response = await fetch('http://localhost:3000', {
+      const response = await fetch('http://localhost:3000/bank', {
         // const response = await fetch("/todos", {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' },
@@ -287,3 +296,17 @@ async function refresh(){
       console.log(err.message);
   }
 };
+*/
+async function deleteCustomer(a){
+  let body = a;
+  try{
+    const response = await fetch('http://127.0.0.1:5500/public/index.html/delete', {
+      headers: { 'Content-Type' : 'application/json'},
+      body: JSON.stringify(body)
+   });
+   refresh;
+  } catch (err){
+      console.log(err.message);
+   }
+
+  }
