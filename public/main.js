@@ -251,11 +251,16 @@ async function addNewCustToDB(){
 
   // connect to server 
   try {
-      fetch('http://localhost:3000/bank/addCustomer',{
+      const response = await fetch('http://localhost:3000/bank/addCustomer',{
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(body),
       });
+      if (!response.ok) {
+          console.error("Fetch failed with status:", response.status);
+      } else {
+          console.log("Customer added successfully!");
+      }
       //refresh(); // call method to update table in Main View
   } catch (err) {
       console.log(err.message);
