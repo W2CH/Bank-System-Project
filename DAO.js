@@ -7,8 +7,8 @@ class AppDAO {
     this.connection = mysql.createConnection({
       host: '127.0.0.1', // Your database host
       user: 'root', // Your MySQL username
-      password: 'password', // Your MySQL password
-      port: '3307', // Your MySQL port, normally "3306"
+      password: '123456789', // Your MySQL password
+      port: '3000', // Your MySQL port, normally "3306"
       database: 'banksystem', // DO NOT EDIT (You need to create a "test" database from your "MySQL Workbench")
     });
 

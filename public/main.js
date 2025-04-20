@@ -160,11 +160,7 @@ document.addEventListener("DOMContentLoaded",function(){
       event.preventDefault();
       validateAddCust();
   });
-})
-
-function submitCustGoBackButton(){
-
-}
+});
 
 function validateAddCust(){
   // const id = document.getElementById("ID").value;
@@ -245,12 +241,12 @@ async function addNewCustToDB(){
 
   // JSON format
   const body = {
-      fname : newFName,
-      lname : newLName,
-      sex : newSex,
-      dob : newDOB,
-      addy : newAddy,
-      phoneNum : newPhoneNum
+      Fname : newFName,
+      Lname : newLName,
+      Sex : newSex,
+      DOB : newDOB,
+      Address : newAddy,
+      PHN : newPhoneNum
   };
 
   // connect to server 
@@ -264,7 +260,7 @@ async function addNewCustToDB(){
   } catch (err) {
       console.log(err.message);
   }
-}
+};
 /*
 async function refresh(){
   let customerData = [];
@@ -297,16 +293,3 @@ async function refresh(){
   }
 };
 */
-async function deleteCustomer(a){
-  let body = a;
-  try{
-    const response = await fetch('http://127.0.0.1:5500/public/index.html/delete', {
-      headers: { 'Content-Type' : 'application/json'},
-      body: JSON.stringify(body)
-   });
-   refresh;
-  } catch (err){
-      console.log(err.message);
-   }
-
-  }
