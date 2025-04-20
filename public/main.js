@@ -251,7 +251,7 @@ async function addNewCustToDB(){
 
   // connect to server 
   try {
-      const response = await fetch('http://localhost:3000/bank/addCustomer',{
+      fetch('http://localhost:3000/bank/addCustomer',{
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(body),

@@ -12,15 +12,8 @@ app.use(express.static('public'));
 app.use(cors());
 app.use(express.json());
 
-const dao = new AppDAO();
-
-// TODO: Change the name of todoRepo variable
-const bankRepository = new Repository(dao);
-bankRepository.createCustomerTable();
-
 //ROUTES
 app.post('/bank/addCustomer', async (req,res) =>{
-  console.log("HIT /bank/addCustomer")
   // Retrieve json values
    const {Fname,Lname,Sex,DOB,Address,PHN} = req.body;
   try{
@@ -103,7 +96,11 @@ app.get('*', function (req, res) {
   res.sendFile(path);
 });
 
+const dao = new AppDAO();
 
+// TODO: Change the name of todoRepo variable
+const bankRepository = new Repository(dao);
+bankRepository.createCustomerTable();
 
 app.listen(3000, () => {
   console.log('server has started on port 3000');
