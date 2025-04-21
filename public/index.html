@@ -104,24 +104,19 @@
       </tbody>
     </table>
   </div>
-  <template id="customer-detail-template">
     <div id="customer-detail">
-      <button id="back-to-main">Back to Main</button>
+      <button id="detail-back-to-main">Back to Main</button>
+      <button id="customer-detail-edit-btn">Edit Customer</button>
+      <button id="customer-detail-add-account">Add Account</button>
       <h1>Customer Details</h1>
       <p><strong>fname</strong> <span class="detail-fname"></span></p>
-      <button id="detail-fname-button" type="button">Edit First Name</button>
       <p><strong>mname</strong> <span class="detail-mname"></span></p>
-      <button id="detail-mname-button" type="button">Edit Middle Name</button>
       <p><strong>lname</strong> <span class="detail-lname"></span></p>
-      <button id="detail-lname-button" type="button">Edit Last Name</button>
       <p><strong>sex</strong> <span class="detail-sex"></span></p>
-      <button id="detail-sex-button" type="button">Edit Sex</button>
       <p><strong>dob</strong> <span class="detail-dob"></span></p>
-      <button id="detail-dob-button" type="button">Edit Date of Birth</button>
       <p><strong>address</strong> <span class="detail-address"></span></p>
-      <button id="detail-address-button" type="button">Edit Address</button>
       <p><strong>phn</strong> <span class="detail-PHN"></span></p>
-      <button id="detail-phn-button" type="button">Edit Phone Number</button>
+      <h2>Customer's Accounts:</h2>
       <table id="detail-account-list" class="table">
         <thead>
           <tr>
@@ -140,7 +135,29 @@
       </table>
 
     </div>
-  </template>
+    <div id="customer-history">
+      <button type="button" id="history-back-to-main">Back to Main</button>
+      <h1>Customer Transaction history</h1>
+
+      <table id="history-list" class="table">
+        <thead>
+          <tr>
+            <th>Account ID</th>
+            <th>Date</th>
+            <th>Operation</th>
+            <th>Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th>-1</th>
+            <th>01/01/2000</th>
+            <th>Withdrawal</th>
+            <th>1000</th>
+          </tr>
+        </tbody>
+      </table>
+    </div>
 
   <div id="add-customer-view">
     <button type="button" id="goBack">Go Back</button>
