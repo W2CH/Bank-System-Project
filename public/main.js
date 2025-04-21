@@ -149,6 +149,7 @@ async function updateTodo(id) {
 * BEGINS WRRITTEN CODE
 *
 */
+refresh();
 
 document.addEventListener("DOMContentLoaded",function(){
   document.getElementById("add-customer-view").hidden = true;
@@ -208,6 +209,7 @@ document.addEventListener("DOMContentLoaded",function(){
   submitCustomerButton.addEventListener("click",function(event){
       event.preventDefault();
       validateAddCust();
+      refresh();
   });
 });
 
@@ -388,18 +390,33 @@ async function refresh(){
         headers: { 'Content-Type': 'application/json' },
       });
       const jsonData = await response.json();
-      customerData = jsonData;
-      
-      customerData.map((customerElement) => {
-          newHTML += `<tr key=${customerElement.cust_ID}>
-          <th>${customerElement.cust_ID}</th>
-          <th>${customerElement.fname}</th>
-          <th>${customerElement.mname}</th>
-          <th>${customerElement.lname}</th>
-          <th><button class="view-detail-btn" type="button">View Details</button></th>
-          <th> button class="view-history-btn" type="button">View Transactions</button></th>
+      customerData = jsonData.allCustomers;
+      console.log(customerData);
+      customerData.forEach(customer => {
+        newHTML += `
+          <tr>
+            <th>${customer.customer_id}</th>
+            <th>${customer.Fname}</th>
+            <th>${customer.Lname}</th>
+            <th>
+              <button 
+                class="view-detail-btn" 
+                data-cust-id="${customer.customer_id}" 
+                type="button">
+                View Details
+              </button>
+            </th>
+            <th>
+              <button 
+                class="view-history-btn" 
+                data-cust-id="${customer.customer_id}" 
+                type="button">
+                View Transactions
+              </button>
+            </th>
           </tr>`;
       });
+
       customerTable.innerHTML = newHTML; 
   } catch (err) {
       console.log(err.message);
