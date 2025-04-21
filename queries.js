@@ -9,7 +9,8 @@ const queries = {
                   PHN VARCHAR(50)  NOT NULL,
                   PRIMARY KEY (customer_id)
                 )`,
-  addCustomer: 'INSERT INTO customer (Fname,Lname,Sex,DOB,Address,PHN) VALUES (?, ?, ?, ?, ?, ?)'
+  addCustomer: 'INSERT INTO customer (Fname,Lname,Sex,DOB,Address,PHN) VALUES (?, ?, ?, ?, ?, ?)',
+  addAccount: 'INSERT INTO account (account_type,balance,customer_id) VALUES (?,?,?)',
 };
 
 module.exports = queries;

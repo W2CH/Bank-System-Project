@@ -5,8 +5,12 @@ class Repository {
     this.dao = dao;
   }
 
-  insertCustomer(Fname, Lname,Sex,DOB,Address,PHN){
+  insertCustomer(Fname,Lname,Sex,DOB,Address,PHN){
     return this.dao.run(queries.addCustomer, [Fname, Lname,Sex,DOB,Address,PHN]);
+  }
+
+  insertAccount(account_type, balance,customer_id){
+    return this.dao.run(queries.addAccount, [account_type,balance,customer_id]);
   }
 
   createCustomerTable() {
