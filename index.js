@@ -17,7 +17,7 @@ app.post('/bank/addCustomer', async (req,res) =>{
   // Retrieve json values
    const {Fname,Lname,Sex,DOB,Address,PHN} = req.body;
   try{
-     var newCustomer = await bankRepository.insertCustomer(Fname, Lname,Sex,DOB,Address,PHN);
+     var newCustomer = await bankRepository.insertCustomer(Fname,Lname,Sex,DOB,Address,PHN);
   }
   catch (err) {
     console.log(err);
@@ -25,80 +25,48 @@ app.post('/bank/addCustomer', async (req,res) =>{
   console.log(newCustomer);
   res.sendStatus(200);
 });
-//get all todo
-app.get('/todos', async (req, res) => {
-  try {
-    console.log('try to fetch');
-    const allTodos = await todoRepository.getAllTodos();
-    console.log('get all todos ', allTodos);
-    res.json(allTodos);
-  } catch (err) {
-    console.log(err.message);
+
+app.post('/bank/addAccount/:customer_id', async (req, res) =>{
+  // Retrieve json values
+  const {account_type,balance} = req.body;
+  const {customer_id} = req.params;
+  try{
+    // Add new account to database
+    var newAccount = await bankRepository.insertAccount(account_type, balance,customer_id);
+  }
+  catch (err){
+    console.log(err);
+  }
+  console.log(newAccount);
+  res.sendStatus(200);
+});
+
+app.get('/bank/allCustomers', async(req,res) =>{
+    try{
+      const customers = await bankRepository.allCustomers();
+      const allCustomers = {allCustomers : customers};
+      res.json(allCustomers);
+    }catch (err){
+      console.log(err.message);
+    }
+});
+
+app.get('/bank/customerTransactions/:customer_id', async(req, res) =>{
+  const {customer_id} = req.params;
+  try{
+    const transactions = await bankRepository.allCustomerTransactions(customer_id);
+    const allCustomerTransactions = {allCustomerTransactions : transactions};
+    res.json(allCustomerTransactions);
+  }catch(err){
+    console.log(err);
   }
 });
 
-//get a todo by id
-app.get('/todos/:id', async (req, res) => {
-  try {
-    const { id } = req.params;
-    const todo = await todoRepository.getTodoById(id);
-    // console.log("get todo by id ", todo);
-    res.json(todo);
-  } catch (err) {
-    console.log(err.message);
-  }
-});
-
-//insert a todo
-app.post('/todos', async (req, res) => {
-  try {
-    // req.body is an object not a json
-    const { description } = req.body;
-
-    // Print newTodo and see what it is.
-    // When does a promise stop being a promise?
-    const newTodo = await todoRepository.insertTodo(description);
-    console.log("insert todo ", newTodo);
-    // res.json(newTodo);
-  } catch (err) {
-    console.log(err.message);
-  }
-});
-
-//update a todo by id
-app.put('/todos/:id', async (req, res) => {
-  try {
-    const { id } = req.params;
-    const { description } = req.body;
-    newTodo = new Todo(id, description);
-    const updateTodo = await todoRepository.updateTodo(newTodo);
-    // console.log("update todo ", updateTodo);
-    res.json(updateTodo);
-  } catch (err) {
-    console.error(err.message);
-  }
-});
-
-//delete a todo by id
-app.delete('/todos/:id', async (req, res) => {
-  try {
-    const { id } = req.params;
-    const deleteTodo = await todoRepository.deleteTodo(id);
-    // console.log("delete todo", deleteTodo);
-    res.json(deleteTodo);
-  } catch (err) {
-    console.log(err.message);
-  }
-});
-
-app.get('*', function (req, res) {
-  path = __dirname + '/public/index.html';
-  res.sendFile(path);
-});
+// TODO: API for customer lookup
+// TODO: API for transaction lookup
 
 const dao = new AppDAO();
 
-// TODO: Change the name of todoRepo variable
 const bankRepository = new Repository(dao);
 bankRepository.createCustomerTable();
 

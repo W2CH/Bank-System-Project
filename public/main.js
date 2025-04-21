@@ -146,7 +146,7 @@ document.addEventListener("DOMContentLoaded",function(){
   const submitCustomerButton = document.getElementById("SubmitNewCust");
   const goBackButton = document.getElementById("goBack");
 
-  
+
   addCustomerForm.addEventListener("click", function(event){
       event.preventDefault();
       document.getElementById("main-view").hidden = true;
@@ -162,7 +162,6 @@ document.addEventListener("DOMContentLoaded",function(){
       validateAddCust();
   });
 });
-
 
 
 function validateAddCust(){
@@ -270,6 +269,8 @@ async function addNewCustToDB(){
   }
 };
 
+/*
+
 async function refresh(){
   let customerData = [];
   const customerTable = document.getElementById('customer-table');
@@ -277,7 +278,11 @@ async function refresh(){
 
   try {
       console.log('try to get cust from DB');
+
       const response = await fetch('http://localhost:3000/bank/allCustomers', {
+
+      const response = await fetch('http://localhost:3000/bank', {
+
         // const response = await fetch("/todos", {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' },
@@ -291,8 +296,13 @@ async function refresh(){
           <th>${customerElement.fname}</th>
           <th>${customerElement.mname}</th>
           <th>${customerElement.lname}</th>
+
           <th><button class="view-detail-btn" type="button">View Details</button></th>
           <th> button class="view-history-btn" type="button">View Transactions</button></th>
+
+          <th><button class="editButton" type="button">EDIT</button></th>
+          <th><button class="viewDetail" type="button">View Details</button></th>
+
           </tr>`;
       });
       customerTable.innerHTML = newHTML; 
@@ -300,3 +310,7 @@ async function refresh(){
       console.log(err.message);
   }
 };
+
+
+*/
+
