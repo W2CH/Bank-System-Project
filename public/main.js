@@ -1,3 +1,8 @@
+/*
+  when adding account -> send id of customer
+*/
+
+
 // set global variable todos
 let todos = [];
 
@@ -132,3 +137,166 @@ async function updateTodo(id) {
     console.log(err.message);
   }
 }
+
+
+// BEGINS WRRITTEN CODE
+document.addEventListener("DOMContentLoaded",function(){
+  document.getElementById("add-customer-view").hidden = true;
+  const addCustomerForm = document.getElementById("addCustomer");
+  const submitCustomerButton = document.getElementById("SubmitNewCust");
+  const goBackButton = document.getElementById("goBack");
+
+  
+  addCustomerForm.addEventListener("click", function(event){
+      event.preventDefault();
+      document.getElementById("main-view").hidden = true;
+      document.getElementById("add-customer-view").hidden = false;
+  });
+  goBackButton.addEventListener("click",function(event){
+      event.preventDefault();
+      document.getElementById("add-customer-view").hidden = true;
+      document.getElementById("main-view").hidden = false;
+  });
+  submitCustomerButton.addEventListener("click",function(event){
+      event.preventDefault();
+      validateAddCust();
+  });
+});
+
+
+
+function validateAddCust(){
+  // const id = document.getElementById("ID").value;
+  // const ssn = document.getElementById("SSN").value;
+  const fName = document.getElementById("FName").value;
+  const lName = document.getElementById("LName").value;
+  const sex = document.getElementById("Sex").value;
+  const dob = document.getElementById("DOB").value;
+  const addy = document.getElementById("Addy").value;
+  const phoneNum = document.getElementById("PhoneNum").value;
+
+  let valid = true;
+  let errMsg = "Error Missing/Invalid Fields: <br><br>";
+
+  document.getElementById("notice").innerHTML ='';
+
+  /*
+  if (id ===''){
+      valid = false;
+      errMsg += "ID required.<br>";
+  }
+  */
+
+  if (fName === '' || lName === '') {
+      console.log('test');
+      valid = false;
+      errMsg += "First and Last Name are required.<br>";
+  }
+
+  if (sex ===''){
+      valid = false;
+      errMsg += "Sex required.<br>";
+  }
+
+  if(addy ===''){
+      valid = false;
+      errMsg +="Address required.<br>";
+  }
+
+  if(dob === ''){
+      valid = false;
+      errMsg += "Date of Birth required.<br>";
+  }
+
+  /*
+  const ssnRegex = /^\d{9}$/;
+  if (ssn === '' && !ssnRegex.test(ssn)) {
+      valid = false;
+      errMsg += "SSN must be 9 digits.<br>";
+  }
+  */
+
+  const phoneRegex = /^\d{10}$/;
+  if (phoneNum === '' && !phoneRegex.test(phoneNum)) {
+      valid = false;
+      errMsg += "Phone Number must be 10 digits.<br>";
+  }
+
+
+  if(valid){
+      document.getElementById("notice").innerHTML += "<br><br><strong>SUBMITTED!</strong>";
+      addNewCustToDB(); // add to DB
+  }
+  else {
+      document.getElementById("notice").innerHTML += "<br><br>" + errMsg;
+  }
+
+};
+
+async function addNewCustToDB(){
+  // retrieve data
+  const newFName = document.getElementById("FName").value;
+  const newLName = document.getElementById("LName").value;
+  const newSex = document.getElementById("Sex").value;
+  const newDOB = document.getElementById("DOB").value;
+  const newAddy = document.getElementById("Addy").value;
+  const newPhoneNum = document.getElementById("PhoneNum").value;
+
+  // JSON format
+  const body = {
+      Fname : newFName,
+      Lname : newLName,
+      Sex : newSex,
+      DOB : newDOB,
+      Address : newAddy,
+      PHN : newPhoneNum
+  };
+
+  // connect to server 
+  try {
+      const response = await fetch('http://localhost:3000/bank/addCustomer',{
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(body),
+      });
+      if (!response.ok) {
+          console.error("Fetch failed with status:", response.status);
+      } else {
+          console.log("Customer added successfully!");
+      }
+      //refresh(); // call method to update table in Main View
+  } catch (err) {
+      console.log(err.message);
+  }
+};
+
+async function refresh(){
+  let customerData = [];
+  const customerTable = document.getElementById('customer-table');
+  let newHTML = '';
+
+  try {
+      console.log('try to get cust from DB');
+      const response = await fetch('http://localhost:3000/bank/allCustomers', {
+        // const response = await fetch("/todos", {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' },
+      });
+      const jsonData = await response.json();
+      customerData = jsonData;
+      
+      customerData.map((customerElement) => {
+          newHTML += `<tr key=${customerElement.cust_ID}>
+          <th>${customerElement.cust_ID}</th>
+          <th>${customerElement.fname}</th>
+          <th>${customerElement.mname}</th>
+          <th>${customerElement.lname}</th>
+          <th><button class="view-detail-btn" type="button">View Details</button></th>
+          <th> button class="view-history-btn" type="button">View Transactions</button></th>
+          </tr>`;
+      });
+      customerTable.innerHTML = newHTML; 
+  } catch (err) {
+      console.log(err.message);
+  }
+};
