@@ -43,7 +43,8 @@ app.post('/bank/addAccount/:customer_id', async (req, res) =>{
 
 app.get('/bank/allCustomers', async(req,res) =>{
     try{
-      const allCustomers = await bankRepository.allCustomers();
+      const customers = await bankRepository.allCustomers();
+      const allCustomers = {allCustomers : customers};
       res.json(allCustomers);
     }catch (err){
       console.log(err.message);
