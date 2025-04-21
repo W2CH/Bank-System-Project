@@ -61,6 +61,10 @@ app.get('/bank/customerTransactions/:customer_id', async(req, res) =>{
     console.log(err);
   }
 });
+
+// TODO: API for customer lookup
+// TODO: API for transaction lookup
+
 const dao = new AppDAO();
 
 const bankRepository = new Repository(dao);
