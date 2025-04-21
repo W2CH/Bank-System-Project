@@ -22,6 +22,9 @@ class Repository {
     const sql = queries.createCustomerTable;
     return this.dao.run(sql);
   }
+  findCustomer(customer_id,Fname,Lname){
+    return this.dao.run(queries.findCustomer, [customer_id,Fname,Lname]);
+  }
 }
 
 module.exports = Repository;
