@@ -179,6 +179,7 @@ document.addEventListener("DOMContentLoaded",function(){
       document.getElementById("main-view").hidden = true;
       document.getElementById("customer-detail").hidden = false;
       //viewCustomerDetail(custID);
+      //getCustomerAccount(custID);
       return;
     }
 
@@ -187,6 +188,7 @@ document.addEventListener("DOMContentLoaded",function(){
       const custID = historyBtn.dataset.custID;
       document.getElementById("main-view").hidden = true;
       document.getElementById("customer-history").hidden = false;
+      document.getElementById('history-title').innerHTML = "Customer Transaction History";
       //viewCustomerHistory(custID);
       return;
     }
@@ -350,24 +352,25 @@ async function viewCustomerDetail(a){
 
 async function getCustomerAccounts(a){
   const custID = a;
-
+  const customerTable = document.getElementById('history-list');
+  let newHTML = '';
 
   try {
-    const response = await fetch(`http://localhost:3000/bank/getCustomer/${custID}`, {
+    const response = await fetch(`http://localhost:3000/bank/getAccount/${custID}`, {
       method: 'GET',
     });
     const jsonData = await response.json();
     const customerData = jsonData;
 
-    document.querySelector('.detail-fname').innerHTML = customerData.Fname;
-    document.querySelector('.detail-mname').innerHTML = customerData.Mname;
-    document.querySelector('.detail-lname').innerHTML = customerData.Fname;
-    document.querySelector('.detail-sex').innerHTML = customerData.Sex;
-    document.querySelector('.detail-dob').innerHTML = customerData.DOB;
-    document.querySelector('.detail-address').innerHTML = customerData.Address;
-    document.querySelector('.detail-PHN').innerHTML = customerData.PHN;
-
-
+    customerData.map((customerElement) => {
+      newHTML += `<tr key=${customerElement.Acc_ID}>
+      <th>${customerElement.Acc_ID}</th>
+      <th>${customerElement.Date}</th>
+      <th>${customerElement.Opperation}</th>
+      <th>${customerElement.Amount}</th>
+      </tr>`;
+  });
+  customerTable.innerHTML = newHTML; 
   } catch (err) {
     console.log(err.message);
   }
