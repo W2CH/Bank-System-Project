@@ -15,22 +15,12 @@ class Repository {
   allCustomers(){
     return this.dao.run(queries.getCustomers);
   }
-
+  allCustomerTransactions(customer_id){
+    return this.dao.run(queries.transactions, [customer_id]);
+  }
   createCustomerTable() {
     const sql = queries.createCustomerTable;
     return this.dao.run(sql);
-  }
-
-  deleteTodo(id) {
-    return this.dao.run(queries.deleteTodo, [id]);
-  }
-
-  getTodoById(id) {
-    return this.dao.run(queries.getTodoById, [id]);
-  }
-
-  getAllTodos() {
-    return this.dao.run(queries.selectTodos, []);
   }
 }
 
