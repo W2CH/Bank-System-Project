@@ -74,29 +74,22 @@
 
     </table>
   </div>
-
   <!------------------------ OUR CODE STARTS HERE ---------------------->
   <div>
     <hr>
   </div>
-
   <div id="main-view">
     <form id="addCustomer">
       <input type="button" value="Add Customer">
     </form>
 
-
     <table id="customer-table" class="table">
-
-    <table id="customer-table">
-
       <thead>
         <tr>
           <th>Customer ID</th>
           <th>First Name</th>
           <th>Last Name</th>
           <th>More Info</th>
-
           <th>Transaction History</th>
         </tr>
       </thead>
@@ -108,14 +101,46 @@
           <th><button class="view-detail-btn" type="button">Edit/View Details</button></th>
           <th><button class="view-history-btn" type= "button">View Transactions</button></th>
         </tr>
-
-        </tr>
-      </thead>
-      <tbody>
-
       </tbody>
     </table>
   </div>
+  <template id="customer-detail-template">
+    <div id="customer-detail">
+      <button id="back-to-main">Back to Main</button>
+      <h1>Customer Details</h1>
+      <p><strong>fname</strong> <span class="detail-fname"></span></p>
+      <button id="detail-fname-button" type="button">Edit First Name</button>
+      <p><strong>mname</strong> <span class="detail-mname"></span></p>
+      <button id="detail-mname-button" type="button">Edit Middle Name</button>
+      <p><strong>lname</strong> <span class="detail-lname"></span></p>
+      <button id="detail-lname-button" type="button">Edit Last Name</button>
+      <p><strong>sex</strong> <span class="detail-sex"></span></p>
+      <button id="detail-sex-button" type="button">Edit Sex</button>
+      <p><strong>dob</strong> <span class="detail-dob"></span></p>
+      <button id="detail-dob-button" type="button">Edit Date of Birth</button>
+      <p><strong>address</strong> <span class="detail-address"></span></p>
+      <button id="detail-address-button" type="button">Edit Address</button>
+      <p><strong>phn</strong> <span class="detail-PHN"></span></p>
+      <button id="detail-phn-button" type="button">Edit Phone Number</button>
+      <table id="detail-account-list" class="table">
+        <thead>
+          <tr>
+            <th>Account</th>
+            <th>Account Type</th>
+            <th>Balance</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th>-1</th>
+            <th>Debit/Credit</th>
+            <th>Over 9000</th>
+          </tr>
+        </tbody>
+      </table>
+
+    </div>
+  </template>
 
   <div id="add-customer-view">
     <button type="button" id="goBack">Go Back</button>

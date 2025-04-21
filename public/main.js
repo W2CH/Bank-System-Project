@@ -5,6 +5,11 @@
 
 // set global variable todos
 let todos = [];
+var customerJSON;
+
+const setCustomerJSON = (JSON) => {
+  customerJSON = JSON;
+}
 
 // function to set todos
 const setTodos = (data) => {
@@ -145,8 +150,33 @@ document.addEventListener("DOMContentLoaded",function(){
   const addCustomerForm = document.getElementById("addCustomer");
   const submitCustomerButton = document.getElementById("SubmitNewCust");
   const goBackButton = document.getElementById("goBack");
+  const customerTable = document.getElementById("customer-table");
+  const viewDetailBackBtn = document.getElementById('back-to-main');
 
+  viewDetailBackBtn.addEventListener('click', function(event){
+    event.preventDefault;
+    document.getElementById('main-view').hidden = false;
+    document.getElementById('customer-detail').hidden = true;
+  });
 
+  customerTable.addEventListener("click", e =>{
+    e.preventDefault;
+    const detailsBtn = e.target.closest('button.view-detail-btn');
+    if (detailsBtn) {
+      const custID = detailsBtn.dataset.custID;
+      viewCustomerDetail(custID);
+      return;
+    }
+
+    const historyBtn = e.target.closest('button.view-history-btn');
+    if (historyBtn) {
+      const custID = historyBtn.dataset.custID;
+      viewCustomerHistory(custID);
+      return;
+    }
+
+  });
+  
   addCustomerForm.addEventListener("click", function(event){
       event.preventDefault();
       document.getElementById("main-view").hidden = true;
@@ -162,6 +192,13 @@ document.addEventListener("DOMContentLoaded",function(){
       validateAddCust();
   });
 });
+
+function viewCustomerHistory(a){
+  const custID = a;
+  document.getElementById("main-view").hidden = true;
+  document.getElementById("customer-detail").hidden = false;
+  
+};
 
 
 function validateAddCust(){
@@ -269,7 +306,29 @@ async function addNewCustToDB(){
   }
 };
 
-/*
+async function viewCustomerDetail(a){
+  const custID = a;
+  document.getElementById("main-view").hidden = true;
+  document.getElementById("customer-detail").hidden = false;
+
+  try {
+    const response = await fetch(`http://localhost:3000/bank/getCustomer/${custID}`, {
+      method: 'GET',
+    });
+    const jsonData = await response.json();
+    const customerData = jsonData;
+
+    document.querySelector('.detail-fname').innerHTML = customerData.Fname;
+    document.querySelector('.detail-mname').innerHTML = customerData.Mname;
+    document.querySelector('.detail-lname').innerHTML = customerData.Fname;
+    document.querySelector('.detail-sex').innerHTML = customerData.Sex;
+    document.querySelector('.detail-dob').innerHTML = customerData.DOB;
+    document.querySelector('.detail-address').innerHTML = customerData.Address;
+    document.querySelector('.detail-PHN').innerHTML = customerData.PHN;
+  } catch (err) {
+    console.log(err.message);
+  }
+};
 
 async function refresh(){
   let customerData = [];
@@ -278,12 +337,7 @@ async function refresh(){
 
   try {
       console.log('try to get cust from DB');
-
       const response = await fetch('http://localhost:3000/bank/allCustomers', {
-
-      const response = await fetch('http://localhost:3000/bank', {
-
-        // const response = await fetch("/todos", {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' },
       });
@@ -296,13 +350,8 @@ async function refresh(){
           <th>${customerElement.fname}</th>
           <th>${customerElement.mname}</th>
           <th>${customerElement.lname}</th>
-
           <th><button class="view-detail-btn" type="button">View Details</button></th>
           <th> button class="view-history-btn" type="button">View Transactions</button></th>
-
-          <th><button class="editButton" type="button">EDIT</button></th>
-          <th><button class="viewDetail" type="button">View Details</button></th>
-
           </tr>`;
       });
       customerTable.innerHTML = newHTML; 
@@ -310,7 +359,3 @@ async function refresh(){
       console.log(err.message);
   }
 };
-
-
-*/
-
