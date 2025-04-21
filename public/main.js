@@ -155,13 +155,32 @@ document.addEventListener("DOMContentLoaded",function(){
   document.getElementById("add-customer-view").hidden = true;
   document.getElementById("customer-detail").hidden = true;
   document.getElementById('customer-history').hidden = true;
+  document.getElementById('customer-search').hidden = true;
+  const lookUpCustomer = document.getElementById('lookUpCustomer');
   const addCustomerForm = document.getElementById("addCustomer");
   const submitCustomerButton = document.getElementById("SubmitNewCust");
   const goBackButton = document.getElementById("goBack");
   const customerTable = document.getElementById("customer-table");
   const viewDetailBackBtn = document.getElementById('detail-back-to-main');
   const viewHistoryBackBtn = document.getElementById('history-back-to-main');
-  
+  const lookUpCustomerGoBackBtn = document.getElementById('search-go-Back');
+  const lookUpCustomerSearchBtn = document.getElementById('SearchButton');
+
+  lookUpCustomerSearchBtn.addEventListener("click",function(event){
+    event.preventDefault();
+    validateAddCust();
+    refresh();
+});
+  lookUpCustomerGoBackBtn.addEventListener('click', function(event){
+    event.preventDefault;
+    document.getElementById('main-view').hidden = false;
+    document.getElementById('customer-search').hidden = true;
+  });
+  lookUpCustomer.addEventListener('click', function(event){
+    event.preventDefault;
+    document.getElementById('main-view').hidden = true;
+    document.getElementById('customer-search').hidden = false;
+  });
   viewDetailBackBtn.addEventListener('click', function(event){
     event.preventDefault;
     document.getElementById('main-view').hidden = false;
