@@ -17,7 +17,7 @@ app.post('/bank/addCustomer', async (req,res) =>{
   // Retrieve json values
    const {Fname,Lname,Sex,DOB,Address,PHN} = req.body;
   try{
-     var newCustomer = await bankRepository.insertCustomer(Fname, Lname,Sex,DOB,Address,PHN);
+     var newCustomer = await bankRepository.insertCustomer(Fname,Lname,Sex,DOB,Address,PHN);
   }
   catch (err) {
     console.log(err);
@@ -25,6 +25,22 @@ app.post('/bank/addCustomer', async (req,res) =>{
   console.log(newCustomer);
   res.sendStatus(200);
 });
+
+app.post('/bank/addAccount/:customer_id', async (req, res) =>{
+  // Retrieve json values
+  const {account_type,balance} = req.body;
+  const {customer_id} = req.params;
+  try{
+    // Add new account to database
+    var newAccount = await bankRepository.insertAccount(account_type, balance,customer_id);
+  }
+  catch (err){
+    console.log(err);
+  }
+  console.log(newAccount);
+  res.sendStatus(200);
+});
+
 //get all todo
 app.get('/todos', async (req, res) => {
   try {
