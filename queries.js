@@ -11,6 +11,7 @@ const queries = {
                 )`,
   addCustomer: 'INSERT INTO customer (Fname,Lname,Sex,DOB,Address,PHN) VALUES (?, ?, ?, ?, ?, ?)',
   addAccount: 'INSERT INTO account (account_type,balance,customer_id) VALUES (?,?,?)',
+  getCustomers:'SELECT * FROM customer'
 };
 
 module.exports = queries;

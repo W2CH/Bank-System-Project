@@ -41,6 +41,15 @@ app.post('/bank/addAccount/:customer_id', async (req, res) =>{
   res.sendStatus(200);
 });
 
+app.get('/bank/allCustomers', async(req,res) =>{
+    try{
+      const allCustomers = await bankRepository.allCustomers();
+      res.json(allCustomers);
+    }catch (err){
+      console.log(err.message);
+    }
+});
+
 //get all todo
 app.get('/todos', async (req, res) => {
   try {
