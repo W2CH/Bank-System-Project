@@ -217,9 +217,13 @@ function refresh(){
   document.getElementById('account-balance').value = "";
   document.getElementById("FName").value = "";
   document.getElementById("LName").value = "";
+  document.getElementById('MName').value = '';
   document.getElementById("Sex").value = "";
   document.getElementById("DOB").value = "";
   document.getElementById("Addy").value = "";
+  document.getElementById('cred-provider').value = '';
+  document.getElementById('cred-score').value = '';
+  document.getElementById('cred-limit').value = '';
   document.getElementById("PhoneNum").value = "";
   document.getElementById("FName").value = "";
   document.getElementById("LName").value = "";
@@ -514,6 +518,9 @@ function validateAddCust(){
   const dob = document.getElementById("DOB").value;
   const addy = document.getElementById("Addy").value;
   const phoneNum = document.getElementById("PhoneNum").value;
+  const newProvider = document.getElementById("cred-provider").value;
+  const newCredLimit = document.getElementById("cred-limit").value;
+  const newCredScore = document.getElementById("cred-score").value;
 
   let valid = true;
   let errMsg = "Error Missing/Invalid Fields: <br><br>";
@@ -527,10 +534,22 @@ function validateAddCust(){
   }
   */
 
-  if (fName === '' || lName === '') {
-      console.log('test');
+  if (fName === '') {
       valid = false;
-      errMsg += "First and Last Name are required.<br>";
+      errMsg += "First is required.<br>";
+  }
+  else if (!/^[A-Za-z]+$/.test(fName)){
+    valid = false;
+    errMsg += "First name can only has characters.<br>"
+  }
+
+  if(lName === ''){
+    valid = false;
+    errMsg += "Last Name is required.<br>";
+  }
+  else if (!/^[A-Za-z]+$/.test(lName)){
+    valid = false;
+    errMsg += "Last Name can only contain characters.<br>";
   }
 
   if (sex ===''){
@@ -562,6 +581,31 @@ function validateAddCust(){
       errMsg += "Phone Number must be 10 digits.<br>";
   }
 
+  if (newProvider === ''){
+    valid = false;
+    errMsg += "You must select a credit provider. <br>";
+  }
+
+  if (newCredLimit === ''){
+    valid = false;
+    errMsg += "You must enter a credit limit. <br>";
+  }
+  else if (!/^[1-9]\d*$/.test(newCredLimit)){
+    valid = false;
+    errMsg += "Credit limit can only be positive number <br>"
+  }
+
+  if (newCredScore === ''){
+    valid = false;
+    errMsg += "You must enter a credit Score. <br>";
+  }
+  else if (!/^(?:[3-7]\d{2}|8[0-4]\d|850)$/.test(newCredScore)){
+    valid = false;
+    errMsg += "Credit limit can only be a number between 300 and 850. <br>"
+  }
+
+
+
 
   if(valid){
       document.getElementById("notice").innerHTML += "<br><br><strong>SUBMITTED!</strong>";
@@ -577,19 +621,28 @@ async function addNewCustToDB(){
   // retrieve data
   const newFName = document.getElementById("FName").value;
   const newLName = document.getElementById("LName").value;
+  const newMName = document.getElementById('Mname').value;
   const newSex = document.getElementById("Sex").value;
   const newDOB = document.getElementById("DOB").value;
   const newAddy = document.getElementById("Addy").value;
   const newPhoneNum = document.getElementById("PhoneNum").value;
 
+  const newProvider = document.getElementById("cred-provider").value;
+  const newCredLimit = document.getElementById("cred-limit").value;
+  const newCredScore = document.getElementById("cred-provider").value;
+
   // JSON format
   const body = {
       Fname : newFName,
+      MName: newMName,
       Lname : newLName,
       Sex : newSex,
       DOB : newDOB,
       Address : newAddy,
-      PHN : newPhoneNum
+      PHN : newPhoneNum,
+      CredProvider : newProvider,
+      CredScore : newCredScore,
+      CredLimit : newCredLimit
   };
 
   // connect to server 
@@ -631,6 +684,9 @@ async function viewCustomerDetail(){
           <th>${customer.DOB.substring(0,10)}</th>
           <th>${customer.Address}</th>
           <th>${customer.PHN}</th>
+          <th>${customer.CredProvider}</th>
+          <th>${customer.CredScore}</th>
+          <th>$${customer.CredLimit}</th>
         </tr>`;
     });
   customerTable.innerHTML = newHTML; 
@@ -658,7 +714,7 @@ async function getCustomerAccounts(){
         <tr>
           <th>${customer.account_id}</th>
           <th>${customer.account_type}</th>
-          <th>${customer.balance}</th>
+          <th>$${customer.balance}</th>
         </tr>`;
     });
     if (!newHTML){

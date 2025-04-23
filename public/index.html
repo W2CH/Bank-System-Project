@@ -17,12 +17,12 @@
 <body>
 
   <!------------------------ OUR CODE STARTS HERE ---------------------->
-  <div>
-    <h1>Welcome to VaultChain Banking Infrastructure</h1>
-  </div>
     <hr>
   </div>
   <div id="main-view">
+    <div>
+      <h1>Welcome to VaultChain Banking Infrastructure</h1>
+    </div>
    <div id="button-bar">
       <input id='addCustomer' type="button" value="Add Customer">
       <input id="lookUpCustomer" type="button" value="Look Up A Customer">
@@ -122,6 +122,9 @@
             <th>Date of Birth</th>
             <th>Address</th>
             <th>Phone Number</th>
+            <th>Credit Provider</th>
+            <th>Credit Score</th>
+            <th>Credit Limit</th>
           </tr>
         </thead>
         <tbody id="detail-customer-info">
@@ -248,10 +251,10 @@
     <label for="FName">First Name:</label>
     <input type="text" id="FName" required>
 
-    <label for="MName">Middle Name:</label>
+    <label for="MName" style="padding-left: 50px;">Middle Name:</label>
     <input type="text" id="MName">
 
-    <label for="LName">Last Name:</label>
+    <label for="LName" style="padding-left: 50px;">Last Name:</label>
     <input type="text" id="LName" required>
 
     <br><br><br>
@@ -264,7 +267,7 @@
       <option value="Other">Other</option>
     </select>
 
-    <label for="DOB">Date of Birth:</label>
+    <label for="DOB" style="padding-left: 50px;">Date of Birth:</label>
     <input type="date" id="DOB" required>
 
     <br><br><br>
@@ -278,6 +281,24 @@
     <input type="tel" id="PhoneNum" required>
 
     <br><br><br>
+
+    <label>Credit Provider:</label>
+    <select id="cred-provider" required>
+      <option disabled selected value>--Select a Provider--</option>
+      <option value="Euifax">Equifax</option>
+      <option value="TransUnion">TransUnion</option>
+      <option value="Experian">Experian</option>
+    </select>
+
+    <br><br><br>
+
+    <label>Customer Credit's Limit:</label>
+    <input type="text" id="cred-limit" required>
+
+    <label style="padding-left: 50px;">Customer Credit's Score:</label>
+    <input type="text" id="cred-score" required>
+
+
 
     <button type="button" id="SubmitNewCust">Submit</button>
 
