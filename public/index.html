@@ -29,49 +29,23 @@
       </button>
     </div>
   </div>
-  <!-- end of insert form -->
-
-  <!-- dynamic table to display todo list -->
-  <table class="table mt-5 text-center" id="todo-list">
-    <thead>
-      <tr>
-        <th>Description</th>
-        <th>Edit</th>
-        <th>Delete</th>
-      </tr>
-    </thead>
-    <!-- add todos in tbody by modying the HTML in main.js -->
-    <tbody id="todo-table"></tbody>
-  </table>
-  <!-- End of dynamic table -->
-
-  <!-- the popup modal, used for update the todo description -->
-  <div class="modal fade" id="edit-modal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="edit-todo-label">Edit Description</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <input type="text" class="form-control modal-body" id="edited-description" />
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">
-            Close
-          </button>
-          <button type="button" class="btn btn-primary" id="save-edit-description" data-dismiss="modal">
-            Save changes
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- end of model -->
-
-  <div id='example'>
-    <table>
-
+  <div id="main-view">
+   <div id="button-bar">
+      <input id="addCustomer" type="button" value="Add Customer">
+      <input id ='lookUpCustomer' type="button" value="Look Up A Customer">
+   </div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Customer ID</th>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>More Info</th>
+          <th>Transaction History</th>
+        </tr>
+      </thead>
+      <tbody id="customer-table">
+      </tbody>
     </table>
   </div>
 
