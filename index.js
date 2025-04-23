@@ -75,7 +75,42 @@ app.get('/bank/customer', async(req,res) =>{
   }
 });
 // TODO: API for transaction lookup
+app.get('/bank/transaction/:customer_id', async(req, res) =>{
+  // Search by account id, account type, and date
+  const {account_id, account_type, transaction_date} = req.body;
+  const {customer_id} = req.params;
+  try{
+    const results = await bankRepository.findTransactions(customer_id, account_id,account_type,transaction_date);
+    const transactionResults = {transactionResults : results};
+    res.json(transactionResults);
+  }catch(err){
+    console.log(err);
+  }
+});
 
+// TODO: Get customer acccounts
+app.get('/bank/customer/:customer_id', async(req, res) =>{
+  const {customer_id} = req.params;
+  try{
+    const customer = await bankRepository.customerDetails(customer_id);
+    const customerInfo = {customerInfo : customer};
+    res.json(customerInfo);
+  }catch(err){
+    console.log(err);
+  }
+});
+
+// TODO: Get customer info
+app.get('/bank/customerAccounts/:customer_id', async(req, res) =>{
+  const {customer_id} = req.params;
+  try{
+    const customerAccounts = await bankRepository.customerAccounts(customer_id);
+    const accounts = {customerAccounts : customerAccounts};
+    res.json(accounts);
+  }catch(err){
+    console.log(err);
+  }
+});
 const dao = new AppDAO();
 
 const bankRepository = new Repository(dao);

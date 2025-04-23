@@ -25,6 +25,15 @@ class Repository {
   findCustomer(customer_id,Fname,Lname){
     return this.dao.run(queries.findCustomer, [customer_id,Fname,Lname]);
   }
+  customerAccounts(customer_id){
+    return this.dao.run(queries.customerAccounts,[customer_id]);
+  }
+  customerDetails(customer_id){
+    return this.dao.run(queries.specificCustomerInfo,[customer_id]);
+  }
+  findTransactions(customer_id, account_id,account_type,transaction_date){
+    return this.dao.run(queries.findTransactions, [customer_id, account_id,account_type,transaction_date]);
+  }
 }
 
 module.exports = Repository;
