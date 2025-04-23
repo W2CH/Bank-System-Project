@@ -75,7 +75,16 @@ app.get('/bank/customer', async(req,res) =>{
   }
 });
 // TODO: API for transaction lookup
-
+app.get('/bank/customer/:customer_id', async(req, res) =>{
+  const {customer_id} = req.params;
+  try{
+    const customer = await bankRepository.customerDetails(customer_id);
+    const customerInfo = {customerInfo : customer}
+    res.json(customerInfo);
+  }catch(err){
+    console.log(err);
+  }
+});
 const dao = new AppDAO();
 
 const bankRepository = new Repository(dao);
