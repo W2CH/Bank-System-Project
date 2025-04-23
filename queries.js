@@ -11,7 +11,7 @@ const queries = {
                 )`,
   addCustomer: 'INSERT INTO customer (Fname,Lname,Sex,DOB,Address,PHN) VALUES (?, ?, ?, ?, ?, ?)',
   addAccount: 'INSERT INTO account (account_type,balance,customer_id) VALUES (?,?,?)',
-  getCustomers:'SELECT * FROM customer',
+  getCustomers:'SELECT customer_id,Fname,Lname FROM customer',
   transactions: 'SELECT transaction_history.account_id, transaction_history.operation, transaction_history.amount FROM transaction_history JOIN account on account.account_id = transaction_history.account_id WHERE customer_id = ?',
   findCustomer: 'SELECT customer_id,Fname,Lname FROM customer WHERE customer_id = ? OR Fname = ? OR Lname = ?'
 };
