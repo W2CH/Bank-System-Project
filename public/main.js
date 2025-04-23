@@ -716,8 +716,19 @@ async function getAllCustomers(){
             </th>
           </tr>`;
       });
-
-      customerTable.innerHTML = newHTML; 
+      if (!newHTML){
+        customerTable.innerHTML = `
+          <tr>
+          <th>N/A</th>
+          <th>N/A</th>
+          <th>N/A</th>
+          <th>N/A</th>
+          <th>N/A</th>
+        </tr>
+        `;
+      }
+      else
+        customerTable.innerHTML = newHTML; 
   } catch (err) {
       console.log(err.message);
   }
