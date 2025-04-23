@@ -265,8 +265,17 @@ async function viewCustomerHistory(a, b){
           <th>${customer.amount}</th>
         </tr>`;
   });
-  if (newHTML){
-    customerTable.innerHTML = newHTML; 
+  if (!newHTML){
+    customerTable.innerHTML = `<tr>
+            <th>N/A</th>
+            <th>N/A</th>
+            <th>N/A</th>
+            <th>N/A</th>
+          </tr>
+    `; 
+  }
+  else {
+    customerTable.innerHTML = newHTML;
   }
   } catch (err) {
     console.log(err.message);
@@ -652,8 +661,15 @@ async function getCustomerAccounts(){
           <th>${customer.balance}</th>
         </tr>`;
     });
-    if (newHTML){
-      customerTable.innerHTML = newHTML; 
+    if (!newHTML){
+      customerTable.innerHTML = `<tr>
+            <th>N/A</th>
+            <th>N/A</th>
+            <th>N/A</th>
+          </tr>`; 
+    }
+    else {
+      customerTable.innerHTML = newHTML;
     }
   } catch (err) {
     console.log(err.message);
