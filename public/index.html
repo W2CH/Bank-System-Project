@@ -11,89 +11,223 @@
   <!-- style file -->
   <link rel="stylesheet" href="style.css" />
 
-  <title>Todo List</title>
+  <title>VaultChain Banking</title>
 </head>
 
 <body>
-  <!-- Title -->
-  <div id="title">
-    <h2>Todo List</h2>
+
+  <!------------------------ OUR CODE STARTS HERE ---------------------->
+  <div>
+    <h1>Welcome to VaultChain Banking Infrastructure</h1>
   </div>
-
-  <!-- todo insert input box and add button -->
-  <div class="input-group mb-3" id="input-todo">
-    <input type="text" class="form-control" placeholder="what I need to do" id="todo-description" />
-    <div class="input-group-append">
-      <button class="btn btn-primary" type="button" onclick="insertTodo()">
-        Add
-      </button>
-    </div>
+    <hr>
   </div>
-  <!-- end of insert form -->
-
-  <!-- dynamic table to display todo list -->
-  <table class="table mt-5 text-center" id="todo-list">
-    <thead>
-      <tr>
-        <th>Description</th>
-        <th>Edit</th>
-        <th>Delete</th>
-      </tr>
-    </thead>
-    <!-- add todos in tbody by modying the HTML in main.js -->
-    <tbody id="todo-table"></tbody>
-  </table>
-  <!-- End of dynamic table -->
-
-  <!-- the popup modal, used for update the todo description -->
-  <div class="modal fade" id="edit-modal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="edit-todo-label">Edit Description</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <input type="text" class="form-control modal-body" id="edited-description" />
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">
-            Close
-          </button>
-          <button type="button" class="btn btn-primary" id="save-edit-description" data-dismiss="modal">
-            Save changes
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- end of model -->
-
-  <div id='example'>
-    <table>
-
-    </table>
-  </div>
-
   <div id="main-view">
-    <form id="addCustomer">
+   <div id="button-bar">
       <input type="button" value="Add Customer">
-    </form>
-
-    <table id="customer-table">
+      <input type="button" value="Look Up A Customer">
+   </div>
+    <table class="table">
       <thead>
         <tr>
           <th>Customer ID</th>
           <th>First Name</th>
           <th>Last Name</th>
           <th>More Info</th>
+          <th>Transaction History</th>
         </tr>
       </thead>
-      <tbody>
-
+      <tbody id="customer-table">
       </tbody>
     </table>
   </div>
+  <div id="customer-search">
+    <button type="button" id="search-go-Back">Go Back</button>
+
+    <br>
+
+    <h1>
+      Enter Customer Info to look up
+    </h1>
+
+    <label>ID:</label>
+    <input type="text" id="search-id">
+
+    <label>First Name:</label>
+    <input type="text" id="search-fname">
+
+    <label>Last Name:</label>
+    <input type="text" id="search-lname">
+
+
+    <button type="button" id="search-button">Search</button>
+
+    <div id="customer-search-notice"></div>
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Customer ID</th>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>More Info</th>
+          <th>Transaction History</th>
+        </tr>
+      </thead>
+      <tbody id="customer-search-table">
+      </tbody>
+    </table>
+  </div>
+  <!--
+  <div id="customer-search-result">
+    <button id="search-back-to-search">Back to Search</button>
+    <button id="search-back-to-main">Back to Main</button>
+    <h1>
+      Search Result
+    </h1>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>First Name</th>
+          <th>Last Name</th>
+        </tr>
+      </thead>
+      <tbody id="search-result-table">
+      </tbody>
+    </table>
+    -->
+  </div>
+    <div id="customer-detail">
+      <button id="detail-back-to-main">Back to Main</button>
+      <!--
+      <button id="customer-detail-edit-btn">Edit Customer</button>
+      -->
+      <button id="customer-detail-add-account">Add Account</button>
+      <h1>Customer Details</h1>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>First Name</th>
+            <th>Middle Name</th>
+            <th>Last Name</th>
+            <th>Sex</th>
+            <th>Date of Birth</th>
+            <th>Address</th>
+            <th>Phone Number</th>
+          </tr>
+        </thead>
+        <tbody id="detail-customer-info">
+        </tbody>
+      </table>
+      <h2>Customer's Accounts:</h2>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Account ID</th>
+            <th>Account Type</th>
+            <th>Balance</th>
+          </tr>
+        </thead>
+        <tbody id="detail-account-list">
+          <tr>
+            <th>N/A</th>
+            <th>N/A</th>
+            <th>N/A</th>
+          </tr>
+        </tbody>
+      </table>
+
+    </div>
+    <div id="edit-customer">
+      <button type="button" id="edit-go-back">Go back</button>
+      <h1>
+      Enter Info to be changed
+    </h1>
+
+      <br><br><br>
+    <label>First Name:</label>
+    <input type="text" id="edit-fname">
+
+    <label>Middle Name:</label>
+    <input type="text" id="edit-mname">
+
+    <label>Last Name:</label>
+    <input type="text" id="edit-lname">
+
+    <br><br><br>
+
+    <label>Sex:</label>
+    <select id="edit-sex">
+      <option disabled selected value>--Select a Sex--</option>
+      <option value="Male">Male</option>
+      <option value="Female">Female</option>
+      <option value="Other">Other</option>
+    </select>
+
+    <label>Date of Birth:</label>
+    <input type="date" id="edit-dob">
+
+    <br><br><br>
+
+    <label>Address:</label>
+    <input type="text" id="edit-address">
+
+    <br><br><br>
+
+    <label>Phone Number</label>
+    <input type="tel" id="edit-phn">
+
+    <br><br><br>
+
+    <button type="button" id="edit-submit">Submit</button>
+
+    <div id="edit-customer-notice"></div>
+    </div>
+    <div id="add-account">
+      <button type="button" id="back-to-detail">Back to customer detail</button>
+      <h1>
+        Enter Account Information To Be Added
+      </h1>
+
+      <label>Account Type:</label>
+      <select id="account-type" required>
+        <option disabled selected value>--Select an Account Type--</option>
+        <option value="debit">debit</option>
+        <option value="credit">credit</option>
+      </select>
+  
+      <label>Balance:</label>
+      <input type="text" id="account-balance">
+
+      <button type="button" id="submit-account">Submit</button>
+
+      <div id="add-account-notice"></div>
+
+    </div>
+    <div id="customer-history">
+      <button type="button" id="history-back-to-main">Back to Main</button>
+      <h1 id="history-title">Transaction history</h1>
+
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Account ID</th>
+            <th>Date</th>
+            <th>Operation</th>
+            <th>Amount</th>
+          </tr>
+        </thead>
+        <tbody id="history-table">
+          <tr>
+            <th>N/A</th>
+            <th>N/A</th>
+            <th>N/A</th>
+            <th>N/A</th>
+          </tr>
+        </tbody>
+      </table>
+    </div>
 
   <div id="add-customer-view">
     <button type="button" id="goBack">Go Back</button>
@@ -103,14 +237,6 @@
     <h1 id="addNewCust">
       Enter New Customer Info
     </h1>
-    <!--
-      <label for="ID">ID:</label>
-      <input type="text" id="ID" required>
-    
-      <label for="SSN">SSN:</label>
-      <input type="text" id="SSN" required>
-      <br><br><br>
-      -->
 
     <label for="FName">First Name:</label>
     <input type="text" id="FName" required>

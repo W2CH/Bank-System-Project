@@ -63,9 +63,23 @@ app.get('/bank/customerTransactions/:customer_id', async(req, res) =>{
 });
 
 // TODO: API for customer lookup
-app.get('/bank/customer', async(req,res) =>{
+app.get('/bank/customerSearch/:customer_id/:Fname/:Lname', async(req,res) =>{
   // Frontend needs to handle case where some of these field aren't provided. Use -1 or "" for variables not populated.
-  const {customer_id,Fname,Lname} = req.body;
+  let {customer_id,Fname,Lname} = req.params;
+  if (Fname === -1){
+    Fname = '';
+  }
+  else{
+    Fname = '%' + Fname + '%';
+  }
+  if (Lname === -1){
+    Lname = '';
+  }
+  else {
+    Lname = '%' + Lname + '%';
+  }
+  console.log(Fname, Lname);
+
   try{
     const results = await bankRepository.findCustomer(customer_id,Fname,Lname);
     const customerSearchResults = {customerSearchResults : results};
@@ -111,6 +125,7 @@ app.get('/bank/customerAccounts/:customer_id', async(req, res) =>{
     console.log(err);
   }
 });
+
 const dao = new AppDAO();
 
 const bankRepository = new Repository(dao);
