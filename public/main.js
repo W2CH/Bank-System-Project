@@ -15,8 +15,10 @@ var customerID;
 * BEGINS WRRITTEN CODE
 *
 */
+// call function to update customer talbe in main-view
 getAllCustomers();
 
+// DOM function to Hide and Unhide divs
 document.addEventListener("DOMContentLoaded",function(){
   document.getElementById("add-customer-view").hidden = true;
   document.getElementById("customer-detail").hidden = true;
@@ -51,12 +53,16 @@ document.addEventListener("DOMContentLoaded",function(){
   const addAccountSubmitBtn = document.getElementById('submit-account');
   const searchResultTable = document.getElementById('customer-search-table');
 
+  // search result table events
   searchResultTable.addEventListener("click", e =>{
     e.preventDefault();
+    // event if view detail is click
     const searchdDetailsBtn = e.target.closest('button.search-view-detail-btn');
     if (searchdDetailsBtn) {
+      // load customer_id dataset loaded into button
+      // dataset in order to grab which customer the button was clicked
       const custID = searchdDetailsBtn.dataset.custId;
-      console.log(custID);
+      // set global var
       customerID = custID;
       document.getElementById("customer-search").hidden = true;
       document.getElementById("customer-detail").hidden = false;
@@ -64,10 +70,12 @@ document.addEventListener("DOMContentLoaded",function(){
       getCustomerAccounts();
       return;
     }
-    // view history
+    // view history event
     const searchHistoryBtn = e.target.closest('button.search-view-history-btn');
     e.preventDefault();
+    // event if view detail is click
     if (searchHistoryBtn) {
+      // load dataset from button and set globar var + pass as parameter
       const custID = searchHistoryBtn.dataset.custId;
       const custFName = searchHistoryBtn.dataset.custFname; // check get all customer dataset
       const custLName = searchHistoryBtn.dataset.custLname; // check get all customer dataset
@@ -110,22 +118,22 @@ addAccountBackBtn.addEventListener('click', function(e){
     e.preventDefault();
     document.getElementById("customer-detail").hidden = true;
     document.getElementById('add-account').hidden = false;
-    refresh();
+    refresh(); // clear fields
   });
   viewDetailBackBtn.addEventListener('click', function(event){
     event.preventDefault();
     document.getElementById('main-view').hidden = false;
     document.getElementById('customer-detail').hidden = true;
-    customerID = '';
+    customerID = ''; // clear customer global var when returning to main view
   });
-  /*
+  /* deprecated
   viewDetailEditBtn.addEventListener('click', function(e){
     e.preventDefault();
     document.getElementById('customer-detail').hidden = true;
     document.getElementById('edit-customer').hidden = false;
     refresh();
   });
-  */
+  
   viewDetailEditCustomerBackBtn.addEventListener('click', function(e){
     e.preventDefault();
     document.getElementById('customer-detail').hidden = false;
@@ -136,7 +144,8 @@ addAccountBackBtn.addEventListener('click', function(e){
     e.preventDefault();
     validateEditCustomer();
   });
-  // view history events
+  */
+  // view transaction history events
   viewHistoryBackBtn.addEventListener('click', function(event){
     event.preventDefault();
     document.getElementById('main-view').hidden = false;
@@ -147,6 +156,7 @@ addAccountBackBtn.addEventListener('click', function(e){
     event.preventDefault();
     document.getElementById('main-view').hidden = true;
     document.getElementById('customer-search').hidden = false;
+    // initially make sure fields are cleared
     document.getElementById('search-id').value = '';
     document.getElementById('search-fname').value = '';
     document.getElementById('search-lname').value = '';
@@ -164,6 +174,7 @@ addAccountBackBtn.addEventListener('click', function(e){
   });
   // table event (view details and view history)
   // view detail
+  // same as searchResultTable above
   customerTable.addEventListener("click", e =>{
     e.preventDefault();
     const detailsBtn = e.target.closest('button.view-detail-btn');
@@ -212,6 +223,7 @@ addAccountBackBtn.addEventListener('click', function(e){
   });
 });
 
+// function to clear fields
 function refresh(){
   document.getElementById('account-type').value = "";
   document.getElementById('account-balance').value = "";
@@ -247,19 +259,25 @@ function refresh(){
   document.getElementById('customer-search-notice').innerHTML = '';
 }
 
+// API call get transaction history
+// args: customer's FName and LName to be display in title 
 async function viewCustomerHistory(a, b){
+  // display customer name
   document.getElementById('history-title').innerHTML = a + " " + b + " Transaction History";
 
+  // grab the table
   const customerTable = document.getElementById('history-table');
   let newHTML = '';
 
   try {
-    const response = await fetch(`http://localhost:3000/bank/customerTransactions/${customerID}`, {
+    const response = await fetch(`http://localhost:3000/bank/customerTransactions/${customerID}`, { //customerID from global var, set when View Details was clicked
       method: 'GET',
     });
+    // grab the return json object
     const jsonData = await response.json();
     const customerData = jsonData.allCustomerTransactions;
     console.log(customerData); 
+    // format into table
     customerData.forEach(customer => {
       newHTML += `
         <tr>
@@ -269,6 +287,7 @@ async function viewCustomerHistory(a, b){
           <th>${customer.amount}</th>
         </tr>`;
   });
+  // if json is empty then display N/A
   if (!newHTML){
     customerTable.innerHTML = `<tr>
             <th>N/A</th>
@@ -286,14 +305,19 @@ async function viewCustomerHistory(a, b){
   }
 };
 
+// function to validate search customer field
+// if all conditions satisfied, call function to searchCustomer
 function validateSearchCustomer(){
   const custID = document.getElementById('search-id').value;
   const fName = document.getElementById('search-fname').value;
   const lName = document.getElementById('search-lname').value;
+  // clear the notice for displaying fields that are not accepted
   document.getElementById('customer-search-notice').innerHTML = '';
 
+  // logic
   let valid = true;
   let errMsg = 'Error: <br><br>';
+
 
   if (custID === '' && fName === '' && lName === ''){
     valid = false;
@@ -323,7 +347,7 @@ function validateSearchCustomer(){
   }
 
   if (valid){
-    searchCustomer();
+    searchCustomer(); // call function to search customer
     
   }
   else {
@@ -331,11 +355,13 @@ function validateSearchCustomer(){
   }
 }
 
+// look up a customer
 async function searchCustomer(){
   let custID = document.getElementById('search-id').value;
   let fName = document.getElementById('search-fname').value;
   let lName = document.getElementById('search-lname').value;
 
+  // validate if fields are empty, send -1 instead
  if (!custID){
   custID = -1;
  }
@@ -346,6 +372,7 @@ async function searchCustomer(){
   lName = -1;
  }
  console.log(fName, lName);
+ // grab the table
   const searchTable = document.getElementById('customer-search-table');
   let newHTML = '';
 
@@ -356,6 +383,8 @@ async function searchCustomer(){
     const jsonData = await response.json();
     customerData = jsonData.customerSearchResults; // MAY NEED TO CHANGE THIS
     console.log(customerData);
+    // format table plus inject buttons to view details and history into table
+    // similar to table in main-view
     customerData.forEach(customer => {
       newHTML += `
         <tr>
@@ -382,7 +411,15 @@ async function searchCustomer(){
           </th>
         </tr>`;
     });
-
+    if(!newHTML){
+      newHTML += `<tr>
+          <th>N/A</th>
+          <th>N/A</th>
+          <th>N/A</th>
+          <th>N/A</th>
+          <th>N/A</th>
+      </tr>`;
+    }
     searchTable.innerHTML = newHTML; 
     refresh();
   } catch (err) {
@@ -391,6 +428,8 @@ async function searchCustomer(){
 
 }
 
+/*
+// Edit customer function, stretch goal
 function validateEditCustomer(){
   const fName = document.getElementById("edit-fname").value;
   const mname = document.getElementById('edit-mname').value;
@@ -459,7 +498,10 @@ async function editCustomer(){
     console.log(err.message);
   }
 };
+*/
 
+// validate adding account
+// if all conditions satisfied, call function to add customer
 function validateAddAccount(){
   const accountType = document.getElementById('account-type').value;
   const accountBalance = document.getElementById('account-balance').value;
@@ -480,7 +522,7 @@ function validateAddAccount(){
 
   if (valid){
     document.getElementById("add-account-notice").innerHTML += "<br><br><strong>SUBMITTED!</strong>";
-    addAccount();
+    addAccount(); // function call to add customer
   }
   else {
     document.getElementById("add-account-notice").innerHTML += "<br><br>" + errMsg;
@@ -508,7 +550,7 @@ try {
 };
 
 
-
+// same as other validate functions
 function validateAddCust(){
   // const id = document.getElementById("ID").value;
   // const ssn = document.getElementById("SSN").value;
