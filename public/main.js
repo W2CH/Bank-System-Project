@@ -180,7 +180,6 @@ addAccountBackBtn.addEventListener('click', function(e){
     const detailsBtn = e.target.closest('button.view-detail-btn');
     if (detailsBtn) {
       const custID = detailsBtn.dataset.custId;
-      console.log(custID);
       customerID = custID;
       document.getElementById("main-view").hidden = true;
       document.getElementById("customer-detail").hidden = false;
@@ -229,7 +228,6 @@ function refresh(){
   document.getElementById('account-balance').value = "";
   document.getElementById("FName").value = "";
   document.getElementById("LName").value = "";
-  document.getElementById('MName').value = '';
   document.getElementById("Sex").value = "";
   document.getElementById("DOB").value = "";
   document.getElementById("Addy").value = "";
@@ -244,8 +242,6 @@ function refresh(){
   document.getElementById("Addy").value = "";
   document.getElementById("PhoneNum").value = "";
   document.getElementById("edit-fname").value = "";
-  document.getElementById('edit-mname').value = "";
-  document.getElementById("edit-mname").value = "";
   document.getElementById("edit-lname").value = "";
   document.getElementById("edit-dob").value = "";
   document.getElementById("edit-address").value = "";
@@ -578,7 +574,7 @@ function validateAddCust(){
 
   if (fName === '') {
       valid = false;
-      errMsg += "First is required.<br>";
+      errMsg += "First name is required.<br>";
   }
   else if (!/^[A-Za-z]+$/.test(fName)){
     valid = false;
@@ -618,9 +614,13 @@ function validateAddCust(){
   */
 
   const phoneRegex = /^\d{10}$/;
-  if (phoneNum === '' && !phoneRegex.test(phoneNum)) {
+  if (phoneNum === ''){
       valid = false;
       errMsg += "Phone Number must be 10 digits.<br>";
+  }
+  else if (!phoneRegex.test(phoneNum)){
+    valid = false;
+    errMsg += "Phone Number must be 10 digits.<br>";
   }
 
   if (newProvider === ''){
@@ -663,7 +663,6 @@ async function addNewCustToDB(){
   // retrieve data
   const newFName = document.getElementById("FName").value;
   const newLName = document.getElementById("LName").value;
-  const newMName = document.getElementById('Mname').value;
   const newSex = document.getElementById("Sex").value;
   const newDOB = document.getElementById("DOB").value;
   const newAddy = document.getElementById("Addy").value;
@@ -671,7 +670,7 @@ async function addNewCustToDB(){
 
   const newProvider = document.getElementById("cred-provider").value;
   const newCredLimit = document.getElementById("cred-limit").value;
-  const newCredScore = document.getElementById("cred-provider").value;
+  const newCredScore = document.getElementById("cred-score").value;
 
   // JSON format
   const body = {
@@ -707,6 +706,7 @@ async function addNewCustToDB(){
 async function viewCustomerDetail(){
   const customerTable = document.getElementById('detail-customer-info');
   let newHTML = '';
+  console.log('test');
   try {
     const response = await fetch(`http://localhost:3000/bank/customer/${customerID}`, {
       method: 'GET',
@@ -714,23 +714,36 @@ async function viewCustomerDetail(){
     const jsonData = await response.json();
     const customerData = jsonData.customerInfo;
     console.log(customerData);
-
     customerData.forEach(customer => {
       newHTML += `
         <tr>
           <th>${customer.Fname}</th>
-          <th>${customer.Mname || 'N/A'}</th>
           <th>${customer.Lname}</th>
           <th>${customer.Sex}</th>
           <th>${customer.DOB.substring(0,10)}</th>
           <th>${customer.Address}</th>
           <th>${customer.PHN}</th>
-          <th>${customer.CredProvider}</th>
-          <th>${customer.CredScore}</th>
-          <th>$${customer.CredLimit}</th>
+          <th>${customer.credit_provider}</th>
+          <th>${customer.credit_score}</th>
+          <th>$${customer.credit_limit}</th>
         </tr>`;
     });
-  customerTable.innerHTML = newHTML; 
+    if (!newHTML){
+      newHTML = `
+      <tr>
+        <th>N/A</th>
+        <th>N/A</th>
+        <th>N/A</th>
+        <th>N/A</th>
+        <th>N/A</th>
+        <th>N/A</th>
+        <th>N/A</th>
+        <th>N/A</th>
+        <th>N/A</th>
+      </tr>`;
+    }
+    
+      customerTable.innerHTML = newHTML; 
 
   } catch (err) {
     console.log(err.message);
@@ -748,7 +761,6 @@ async function getCustomerAccounts(){
     });
     const jsonData = await response.json();
     const customerData = jsonData.customerAccounts;
-    console.log(customerData);
 
     customerData.forEach(customer => {
       newHTML += `
@@ -779,14 +791,12 @@ async function getAllCustomers(){
   let newHTML = '';
 
   try {
-      console.log('try to get cust from DB');
       const response = await fetch('http://localhost:3000/bank/allCustomers', {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' },
       });
       const jsonData = await response.json();
       customerData = jsonData.allCustomers;
-      console.log(customerData);
       customerData.forEach(customer => {
         newHTML += `
           <tr>
