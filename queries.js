@@ -9,6 +9,40 @@ const queries = {
                   PHN VARCHAR(50)  NOT NULL,
                   PRIMARY KEY (customer_id)
                 )`,
+  createAccountTable: `CREATE TABLE IF NOT EXISTS account
+                ( account_id INT NOT NULL AUTO_INCREMENT,
+                  account_type VARCHAR(50) NOT NULL,
+                  balance FLOAT NOT NULL,
+                  customer_id INT NOT NULL,
+                  PRIMARY KEY (account_id),
+                  CONSTRAINT fk_customer_id
+                    FOREIGN KEY (customer_id)
+                    REFERENCES customer(customer_id)
+                    ON DELETE CASCADE
+                    ON UPDATE CASCADE
+                )`,
+  createCreditInfoTable: `CREATE TABLE IF NOT EXISTS credit
+                ( customer_id INT NOT NULL,
+                  credit_provider VARCHAR(100) NOT NULL,
+                  credit_score INT NOT NULL,
+                  credit_limit INT NOT NULL,
+                  CONSTRAINT fk_credit_customer_id
+                    FOREIGN KEY (customer_id)
+                    REFERENCES customer(customer_id)
+                    ON DELETE CASCADE
+                    ON UPDATE CASCADE
+                )`,
+  createTransactionHistoryTable: `CREATE TABLE IF NOT EXISTS transaction_history
+                ( account_id INT NOT NULL,
+                  transaction_date DATE NOT NULL,
+                  operation VARCHAR(45) NOT NULL,
+                  amount FLOAT NOT NULL,
+                  CONSTRAINT fk_transaction_account_id
+                    FOREIGN KEY (account_id)
+                    REFERENCES account(account_id)
+                    ON DELETE CASCADE
+                    ON UPDATE CASCADE
+                )`,
   addCustomer: 'INSERT INTO customer (Fname,Lname,Sex,DOB,Address,PHN) VALUES (?, ?, ?, ?, ?, ?)',
   addCreditScore: 'INSERT INTO credit (customer_id,credit_provider, credit_score, credit_limit) VALUES (?, ?, ?, ?)',
   addAccount: 'INSERT INTO account (account_type,balance,customer_id) VALUES (?,?,?)',

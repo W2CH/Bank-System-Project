@@ -5,6 +5,22 @@ class Repository {
     this.dao = dao;
   }
 
+  createCustomerTable() {
+    const sql = queries.createCustomerTable;
+    return this.dao.run(sql);
+  }
+  createAccountTable() {
+    const sql = queries.createAccountTable;
+    return this.dao.run(sql);
+  }
+  createCreditInfoTable() {
+    const sql = queries.createCreditInfoTable;
+    return this.dao.run(sql);
+  }
+  createTransactionHistoryTable() {
+    const sql = queries.createTransactionHistoryTable;
+    return this.dao.run(sql);
+  }
   insertCustomer(Fname,Lname,Sex,DOB,Address,PHN){
     return this.dao.run(queries.addCustomer, [Fname, Lname,Sex,DOB,Address,PHN]);
   }
@@ -20,10 +36,6 @@ class Repository {
   }
   allCustomerTransactions(customer_id){
     return this.dao.run(queries.transactions, [customer_id]);
-  }
-  createCustomerTable() {
-    const sql = queries.createCustomerTable;
-    return this.dao.run(sql);
   }
   findCustomer(customer_id,Fname,Lname){
     return this.dao.run(queries.findCustomer, [customer_id,Fname,Lname]);

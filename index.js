@@ -133,6 +133,9 @@ const dao = new AppDAO();
 
 const bankRepository = new Repository(dao);
 bankRepository.createCustomerTable();
+bankRepository.createAccountTable();
+bankRepository.createCreditInfoTable();
+bankRepository.createTransactionHistoryTable();
 
 app.listen(3000, () => {
   console.log('server has started on port 3000');
