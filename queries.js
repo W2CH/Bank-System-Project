@@ -16,7 +16,7 @@ const queries = {
   transactions: 'SELECT transaction_history.account_id, transaction_history.date, transaction_history.operation, transaction_history.amount FROM transaction_history JOIN account on account.account_id = transaction_history.account_id WHERE customer_id = ?',
   findCustomer: 'SELECT customer_id,Fname,Lname FROM customer WHERE customer_id = ? OR Fname LIKE ? OR Lname LIKE ?',
   customerAccounts: 'SELECT account_id, account_type,balance FROM account WHERE customer_id = ?',
-  specificCustomerInfo: 'SELECT Fname, Mname, Lname, Sex, DOB, Address, PHN FROM customer WHERE customer_id = ?',
+  specificCustomerInfo: 'SELECT Fname, Lname, Sex, DOB, Address, PHN, credit_provider, credit_score, credit_limit FROM customer  JOIN credit ON customer.customer_id = credit.customer_id WHERE customer.customer_id = ?',
   findTransactions: 'SELECT th.account_id,th.transaction_date,th.operation,th.amount FROM transaction_history as th JOIN account ON account.account_id = th.account_id JOIN customer ON customer.customer_id = account.customer_id WHERE customer.customer_id = ? AND th.account_id = ? AND account.account_type = ? AND th.transaction_date = ?',
   recentCustomerID: 'SELECT customer_id FROM customer ORDER BY customer_id DESC LIMIT 1'
 };

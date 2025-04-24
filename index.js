@@ -12,9 +12,6 @@ app.use(express.static('public'));
 app.use(cors());
 app.use(express.json());
 
-// CredProvider : newProvider,
-// CredScore : newCredScore,
-// CredLimit : newCredLimit
 //ROUTES
 app.post('/bank/addCustomer', async (req,res) =>{
   // Retrieve json values
@@ -108,7 +105,7 @@ app.get('/bank/transaction/:customer_id', async(req, res) =>{
   }
 });
 
-// TODO: Get customer acccounts
+// TODO: Get customer info
 app.get('/bank/customer/:customer_id', async(req, res) =>{
   const {customer_id} = req.params;
   try{
@@ -120,7 +117,7 @@ app.get('/bank/customer/:customer_id', async(req, res) =>{
   }
 });
 
-// TODO: Get customer info
+// TODO: Get customer accounts
 app.get('/bank/customerAccounts/:customer_id', async(req, res) =>{
   const {customer_id} = req.params;
   try{
