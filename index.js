@@ -69,19 +69,18 @@ app.get('/bank/customerTransactions/:customer_id', async(req, res) =>{
 app.get('/bank/customerSearch/:customer_id/:Fname/:Lname', async(req,res) =>{
   // Frontend needs to handle case where some of these field aren't provided. Use -1 or "" for variables not populated.
   let {customer_id,Fname,Lname} = req.params;
-  if (Fname === -1){
+  if (Fname === '-1'){
     Fname = '';
   }
   else{
     Fname = '%' + Fname + '%';
   }
-  if (Lname === -1){
+  if (Lname === '-1'){
     Lname = '';
   }
   else {
     Lname = '%' + Lname + '%';
   }
-  console.log(Fname, Lname);
 
   try{
     const results = await bankRepository.findCustomer(customer_id,Fname,Lname);
@@ -92,10 +91,17 @@ app.get('/bank/customerSearch/:customer_id/:Fname/:Lname', async(req,res) =>{
   }
 });
 // TODO: API for transaction lookup
-app.get('/bank/transaction/:customer_id', async(req, res) =>{
+app.get('/bank/transaction/:customer_id/:account_id/:account_type/:transaction_date', async(req, res) =>{
   // Search by account id, account type, and date
-  const {account_id, account_type, transaction_date} = req.body;
-  const {customer_id} = req.params;
+  let {customer_id,account_id,account_type,transaction_date} = req.params;
+
+if(account_type === '-1'){
+  account_type = null;
+}
+if(transaction_date === '-1'){
+  transaction_date = null;
+}
+
   try{
     const results = await bankRepository.findTransactions(customer_id, account_id,account_type,transaction_date);
     const transactionResults = {transactionResults : results};

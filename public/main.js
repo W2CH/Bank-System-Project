@@ -20,6 +20,7 @@ getAllCustomers();
 
 // DOM function to Hide and Unhide divs
 document.addEventListener("DOMContentLoaded",function(){
+  document.getElementById('history-search').hidden = true;
   document.getElementById("add-customer-view").hidden = true;
   document.getElementById("customer-detail").hidden = true;
   document.getElementById('customer-history').hidden = true;
@@ -52,7 +53,26 @@ document.addEventListener("DOMContentLoaded",function(){
   const addAccountBackBtn = document.getElementById('back-to-detail');
   const addAccountSubmitBtn = document.getElementById('submit-account');
   const searchResultTable = document.getElementById('customer-search-table');
+  const searchHistoryBtn = document.getElementById('search-history');
+  const searchBackToHistoryListBtn = document.getElementById('search-back-to-history-list');
+  const searchHistorySubmitBtn = document.getElementById('search-history-submit');
 
+
+  searchBackToHistoryListBtn.addEventListener('click', function(e){
+    e.preventDefault();
+    document.getElementById('history-search').hidden = true;
+    document.getElementById('customer-history').hidden = false;
+    refresh();
+  });
+  searchHistoryBtn.addEventListener('click', function(e){
+    e.preventDefault();
+    document.getElementById('history-search').hidden = false;
+    document.getElementById('customer-history').hidden = true;
+  });
+  searchHistorySubmitBtn.addEventListener('click', function(e){
+    e.preventDefault();
+    validateSearchHistory();
+  });
   // search result table events
   searchResultTable.addEventListener("click", e =>{
     e.preventDefault();
@@ -224,6 +244,9 @@ addAccountBackBtn.addEventListener('click', function(e){
 
 // function to clear fields
 function refresh(){
+  document.getElementById('search-history-id').value = "";
+  document.getElementById('search-history-account-type').value = "";
+  document.getElementById('search-history-date').value = "";
   document.getElementById('account-type').value = "";
   document.getElementById('account-balance').value = "";
   document.getElementById("FName").value = "";
@@ -253,6 +276,80 @@ function refresh(){
   document.getElementById('search-fname').value = '';
   document.getElementById('search-lname').value = '';
   document.getElementById('customer-search-notice').innerHTML = '';
+  document.getElementById('search-history-notice').innerHTML = '';
+}
+
+function validateSearchHistory(){
+  const accID = document.getElementById('search-history-id').value;
+  let valid = true;
+  let newHTML = '';
+
+  if (!/^[1-9]$/.test(accID)){
+    valid = false;
+    newHTML += 'ID must be a positive integer';
+  }
+
+  if (valid){
+    searchHistory();
+    refresh();
+  }
+  else {
+    document.getElementById('search-history-notice').innerHTML = newHTML;
+  }
+
+}
+
+async function searchHistory(){
+  const accID = document.getElementById('search-history-id').value;
+  let accountType = document.getElementById('search-history-account-type').value;
+  let date = document.getElementById('search-history-date').value;
+  const customerTable = document.getElementById('search-result-table');
+  let newHTML = '';
+
+  if (accountType === ''){
+    accountType = '-1';
+  }
+
+  if(date === ''){
+    date = '-1';
+  }
+
+  try {
+    const response = await fetch(`http://localhost:3000/bank/transaction/${customerID}/${accID}/${accountType}/${date}`, { //customerID from global var, set when View Details was clicked
+      method: 'GET',
+
+    });
+    // grab the return json object
+    const jsonData = await response.json();
+    const customerData = jsonData.transactionResults;
+    console.log(customerData); 
+    // format into table
+    customerData.forEach(customer => {
+      newHTML += `
+        <tr>
+          <th>${customer.account_id}</th>
+          <th>${customer.transaction_date.substring(0,10)}</th>
+          <th>${customer.operation}</th>
+          <th>${customer.amount}</th>
+        </tr>`;
+  });
+  // if json is empty then display N/A
+  if (!newHTML){
+    customerTable.innerHTML = `<tr>
+            <th>N/A</th>
+            <th>N/A</th>
+            <th>N/A</th>
+            <th>N/A</th>
+          </tr>
+    `; 
+  }
+  else {
+    customerTable.innerHTML = newHTML;
+  }
+  } catch (err) {
+    console.log(err.message);
+  }
+  
 }
 
 // API call get transaction history
@@ -278,7 +375,7 @@ async function viewCustomerHistory(a, b){
       newHTML += `
         <tr>
           <th>${customer.account_id}</th>
-          <th>${customer.date.substring(0,10)}</th>
+          <th>${customer.transaction_date.substring(0,10)}</th>
           <th>${customer.operation}</th>
           <th>${customer.amount}</th>
         </tr>`;
@@ -359,13 +456,13 @@ async function searchCustomer(){
 
   // validate if fields are empty, send -1 instead
  if (!custID){
-  custID = -1;
+  custID = '-1';
  }
  if (!fName){
-  fName = -1;
+  fName = '-1';
  }
  if (!lName){
-  lName = -1;
+  lName = '-1';
  }
  console.log(fName, lName);
  // grab the table

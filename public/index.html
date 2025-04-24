@@ -86,23 +86,7 @@
     </table>
   </div>
   <!--
-  <div id="customer-search-result">
-    <button id="search-back-to-search">Back to Search</button>
-    <button id="search-back-to-main">Back to Main</button>
-    <h1>
-      Search Result
-    </h1>
-    <table class="table">
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>First Name</th>
-          <th>Last Name</th>
-        </tr>
-      </thead>
-      <tbody id="search-result-table">
-      </tbody>
-    </table>
+
     -->
   </div>
     <div id="customer-detail">
@@ -213,6 +197,7 @@
     </div>
     <div id="customer-history">
       <button type="button" id="history-back-to-main">Back to Main</button>
+      <button type="button" id="search-history">Search History</button>
       <h1 id="history-title">Transaction history</h1>
 
       <table class="table">
@@ -234,7 +219,47 @@
         </tbody>
       </table>
     </div>
+    <div id="history-search">
+      <button id="search-back-to-history-list">Back to Transactions</button>
 
+      <h1>Enter transaction info to be looked up</h1>
+
+      <label>ID:</label>
+      <input type="text" id="search-history-id">
+
+      <br><br><br>
+
+      <label>Account Type:</label>
+      <select id="search-history-account-type" required>
+        <option disabled selected value>--Select an Account Type--</option>
+        <option value="debit">debit</option>
+        <option value="credit">credit</option>
+      </select>
+
+      <br><br><br>
+
+      <label>Date:</label>
+      <input type="date" id="search-history-date">
+
+      <button id="search-history-submit">Search</button>
+
+      <div id="search-history-notice"></div>
+      <h1>
+        Search Result
+      </h1>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Date</th>
+            <th>Opereation</th>
+            <th>Amount</th>
+          </tr>
+        </thead>
+        <tbody id="search-result-table">
+        </tbody>
+      </table>
+    </div>
   <div id="add-customer-view">
     <button type="button" id="goBack">Go Back</button>
 
