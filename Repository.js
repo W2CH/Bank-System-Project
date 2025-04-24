@@ -9,6 +9,9 @@ class Repository {
     return this.dao.run(queries.addCustomer, [Fname, Lname,Sex,DOB,Address,PHN]);
   }
 
+  insertCreditInfo(customer_id, CredProvider, CredScore, CredLimit){
+    return this.dao.run(queries.addCreditScore, [customer_id, CredProvider, CredScore, CredLimit]);
+  }
   insertAccount(account_type, balance,customer_id){
     return this.dao.run(queries.addAccount, [account_type,balance,customer_id]);
   }
@@ -33,6 +36,9 @@ class Repository {
   }
   findTransactions(customer_id, account_id,account_type,transaction_date){
     return this.dao.run(queries.findTransactions, [customer_id, account_id,account_type,transaction_date]);
+  }
+  recentCustomer(){
+    return this.dao.run(queries.recentCustomerID);
   }
 }
 

@@ -12,17 +12,23 @@ app.use(express.static('public'));
 app.use(cors());
 app.use(express.json());
 
+// CredProvider : newProvider,
+// CredScore : newCredScore,
+// CredLimit : newCredLimit
 //ROUTES
 app.post('/bank/addCustomer', async (req,res) =>{
   // Retrieve json values
-   const {Fname,Lname,Sex,DOB,Address,PHN} = req.body;
+   const {Fname,Lname,Sex,DOB,Address,PHN, CredProvider, CredScore, CredLimit} = req.body;
   try{
-     var newCustomer = await bankRepository.insertCustomer(Fname,Lname,Sex,DOB,Address,PHN);
+     await bankRepository.insertCustomer(Fname,Lname,Sex,DOB,Address,PHN);
+     const customerObj = await bankRepository.recentCustomer();
+     const [{customer_id}] = customerObj;
+     console.log(customer_id);
+     await bankRepository.insertCreditInfo(customer_id, CredProvider, CredScore, CredLimit);
   }
   catch (err) {
     console.log(err);
   }
-  console.log(newCustomer);
   res.sendStatus(200);
 });
 

@@ -634,7 +634,6 @@ async function addNewCustToDB(){
   // JSON format
   const body = {
       Fname : newFName,
-      MName: newMName,
       Lname : newLName,
       Sex : newSex,
       DOB : newDOB,
